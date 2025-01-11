@@ -206,22 +206,19 @@ class dle_template {
 		$type = strtolower( end( $type ) );
 
 		if ($type == "tpl") {
+    return $this->sub_load_template($name);
+}
 
-			return $this->sub_load_template( $name );
+if ($this->include_mode == "php") {
+    if (!$this->allow_php_include) return;
 
-		}
+    if ($type != "php") return "To connect permitted only files with the extension: .tpl or .php";
 
-		if ($this->include_mode == "php") {
-
-			if ( !$this->allow_php_include ) return;
-
-			if ($type != "php") return "To connect permitted only files with the extension: .tpl or .php";
-
-			if ($url['path']{0} == "/" )
-				$file_path = dirname (ROOT_DIR.$url['path']);
-			else
-				$file_path = dirname (ROOT_DIR."/".$url['path']);
-
+    if ($url['path'][0] == "/")
+        $file_path = dirname(ROOT_DIR . $url['path']);
+    else
+        $file_path = dirname(ROOT_DIR . "/" . $url['path']);
+}
 			$file_name = pathinfo($url['path']);
 			$file_name = $file_name['basename'];
 
